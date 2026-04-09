@@ -103,12 +103,12 @@ require("mason-lspconfig").setup({
 			local cargo_config = ".cargo/config.toml"
 			local settings = {
 				["rust-analyzer"] = {
-					cargo = {
-						allTargets = false,
-						buildScripts = { enable = false },
-					},
-					check = { allTargets = false },
-					procMacro = { enable = false },
+					-- cargo = {
+					-- 	allTargets = false,
+					-- 	buildScripts = { enable = false },
+					-- },
+					-- check = { allTargets = false },
+					-- procMacro = { enable = false },
 				},
 			}
 
