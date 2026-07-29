@@ -10,6 +10,7 @@ local to_install = {
 	"ts_ls",
 	"bashls",
 	"marksman",
+	"kotlin_lsp",
 	"solidity_ls_nomicfoundation",
 
 	-- Formaters
@@ -28,6 +29,11 @@ local to_install = {
 local cmp_lsp = require("cmp_nvim_lsp")
 local capabilities =
 	vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(), cmp_lsp.default_capabilities())
+
+vim.lsp.config("kotlin_lsp", {
+	cmd = { "intellij-server", "--stdio" },
+	capabilities = capabilities,
+})
 
 require("mason-tool-installer").setup({ ensure_installed = to_install })
 
