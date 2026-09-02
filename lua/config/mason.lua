@@ -7,10 +7,10 @@ local to_install = {
 	"gopls",
 	"rust_analyzer",
 	"tailwindcss",
-	"ts_ls",
 	"bashls",
 	"marksman",
-	"kotlin_lsp",
+	-- "kotlin_lsp",
+	-- "jdtls",
 	"solidity_ls_nomicfoundation",
 
 	-- Formaters
@@ -30,10 +30,62 @@ local cmp_lsp = require("cmp_nvim_lsp")
 local capabilities =
 	vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(), cmp_lsp.default_capabilities())
 
-vim.lsp.config("kotlin_lsp", {
-	cmd = { "intellij-server", "--stdio" },
-	capabilities = capabilities,
+vim.lsp.config("tsc", {
+	capabilities = vim.tbl_deep_extend("force", { documentFormattingProvider = false }, capabilities),
 })
+vim.lsp.enable("tsc")
+
+-- vim.lsp.config("kotlin_lsp", {
+-- 	cmd = { "intellij-server", "--stdio" },
+-- 	capabilities = capabilities,
+-- })
+-- vim.lsp.config("jdtls", {
+-- 	capabilities = capabilities,
+-- 	init_options = {
+-- 		extendedClientCapabilities = {
+-- 			classFileContentsSupport = true,
+-- 		},
+-- 	},
+-- 	cmd = function(dispatchers, config)
+-- 		-- Keep project indexes isolated even when unrelated projects share a directory name.
+-- 		local workspace = vim.fs.joinpath(vim.fn.stdpath("cache"), "jdtls", vim.fn.sha256(config.root_dir))
+-- 		return vim.lsp.rpc.start({ "jdtls", "-data", workspace }, dispatchers, {
+-- 			cwd = config.cmd_cwd,
+-- 			env = config.cmd_env,
+-- 			detached = config.detached,
+-- 		})
+-- 	end,
+-- })
+-- vim.api.nvim_create_autocmd("BufReadCmd", {
+-- 	pattern = "jdt://*",
+-- 	callback = function(args)
+-- 		local client = vim.lsp.get_clients({ bufnr = vim.fn.bufnr("#"), name = "jdtls" })[1]
+-- 			or vim.lsp.get_clients({ name = "jdtls" })[1]
+-- 		if not client then
+-- 			return
+-- 		end
+--
+-- 		vim.bo[args.buf].buftype = "nofile"
+-- 		vim.bo[args.buf].swapfile = false
+-- 		vim.bo[args.buf].filetype = "java"
+-- 		vim.bo[args.buf].modifiable = true
+-- 		local content
+-- 		client:request("java/classFileContents", { uri = args.match }, function(err, result)
+-- 			content = result
+-- 			if err or not content then
+-- 				vim.notify("Could not load Java class contents", vim.log.levels.ERROR)
+-- 				return
+-- 			end
+-- 			vim.api.nvim_buf_set_lines(args.buf, 0, -1, false, vim.split(content, "\n", { plain = true }))
+-- 			vim.bo[args.buf].modifiable = false
+-- 		end, args.buf)
+-- 		-- Neovim positions the cursor immediately after this event; wait for JDTLS
+-- 		-- so the requested definition line is already present in the buffer.
+-- 		vim.wait(5000, function()
+-- 			return content ~= nil
+-- 		end)
+-- 	end,
+-- })
 
 require("mason-tool-installer").setup({ ensure_installed = to_install })
 
@@ -68,14 +120,6 @@ require("mason-lspconfig").setup({
 						buildFlags = { "-tags=integration,e2e" },
 					},
 				},
-			})
-		end,
-		["ts_ls"] = function()
-			local lspconfig = require("lspconfig")
-			lspconfig.ts_ls.setup({
-				capabilities = vim.tbl_deep_extend("force", { documentFormattingProvider = false }, capabilities),
-				root_dir = lspconfig.util.root_pattern("package.json"),
-				single_file_support = false,
 			})
 		end,
 		["denols"] = function()

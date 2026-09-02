@@ -8,7 +8,7 @@ local function format()
 		async = false,
 		lsp_format = "fallback",
 		filter = function(client)
-			return client.name ~= "ts_ls" and client.name ~= "solidity_ls_nomicfoundation"
+			return client.name ~= "tsc" and client.name ~= "solidity_ls_nomicfoundation"
 		end,
 	})
 end
