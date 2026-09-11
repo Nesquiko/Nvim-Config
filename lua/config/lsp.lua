@@ -33,7 +33,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			opts("Opens diagnostics floating window for line under cursor")
 		)
 
-		vim.keymap.set("n", "<leader>h", function()
+		vim.keymap.set("n", "<leader>ih", function()
 			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 		end, opts("Toggles inlay hints"))
 	end,
