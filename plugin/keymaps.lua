@@ -40,10 +40,8 @@ Map("n", "<C-Down>", ":resize +1<CR>")
 Map("n", "<C-Left>", ":vertical resize +1<CR>")
 Map("n", "<C-Right>", ":vertical resize -1<CR>")
 
--- buffers
-Map("n", "<A-l>", ":bnext<CR>")
-Map("n", "<A-h>", ":bprevious<CR>")
 Map("n", "<leader>x", ":bdelete<CR>")
+Map("n", "<leader>rn", "<cmd>restart<CR>")
 
 -- Center to cursor with C-d and C-u
 Map("n", "<C-d>", "<C-d>zz")
