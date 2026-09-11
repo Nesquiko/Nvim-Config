@@ -4,14 +4,14 @@ return {
 	keys = {
 		-- One handed keymap recommended, you will be using the mouse
 		{
-			"<leader>v",
+			"<leader>pc",
 			function()
 				require("oklch-color-picker").pick_under_cursor()
 			end,
 			desc = "Color pick under cursor",
 		},
 		{
-			"<leader>tv",
+			"<leader>ch",
 			function()
 				require("oklch-color-picker").highlight.toggle()
 			end,
@@ -20,6 +20,7 @@ return {
 	},
 	opts = {
 		highlight = {
+			enabled = false,
 			enabled_lsps = { "tailwindcss", "cssls", "css_variables" },
 		},
 	},
